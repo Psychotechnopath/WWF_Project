@@ -1,5 +1,0 @@
-print("Hoi hoi")
-print("Hi")
-print("Hallo")
-print("Hoi")
-print("Test commit")
