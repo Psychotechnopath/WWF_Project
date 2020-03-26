@@ -5,7 +5,7 @@ import xgboost as xgb
 from sklearn.metrics import accuracy_score, confusion_matrix
 
 #Import data
-with open("TilePickle_28.pkl", "rb") as f:
+with open("TilePickle_9.pkl", "rb") as f:
     tile = pickle.load(f)
 
 # Flatten matrix
