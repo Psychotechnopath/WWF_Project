@@ -1,3 +1,6 @@
+import pickle
+import pandas as pd
+
 with open("TilePickle_5.pkl", "rb") as f:
     tile = pickle.load(f)
 
