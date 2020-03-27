@@ -36,6 +36,12 @@ for i in fl:
 
         print(df['future_deforestation'].describe())
         print(df['future_deforestation'].value_counts())
+        print("Coordinates:")
+        print(df['x center'].mean(), df['y center'].mean())
+        print("Month is: ")
+        print(df['CurrentMonth'].mean())
+        print("Distance to defor: ")
+        print(df['current_deforestationDistance '].mean())
 
         f.close()
         tile = 0
