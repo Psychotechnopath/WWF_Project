@@ -23,16 +23,16 @@ for i in fl:
                                                     'EdgeDensity2', 'EdgeDensity3', 'EdgeDensity4',
                                                     'PatchDensity1', 'PatchDensity2', 'PatchDensity3',
                                                     'PatchDensity4', 'LandcoverPercentage1', 'LandcoverPercentage2',
-                                                    'LandcoverPercentage3', 'LandcoverPercentage4', 'ShannonDiversity ',
-                                                    'current_deforestationDistance ', 'current_degradationDistance',
+                                                    'LandcoverPercentage3', 'LandcoverPercentage4', 'ShannonDiversity',
+                                                    'current_deforestationDistance', 'current_degradationDistance',
                                                     'future_deforestation', 'RawSarVisionClasses', 'SarvisionBasemap',
                                                     'scaledPopDensity', 'scaledASTER', 'RoadsDistance',
                                                     'UrbanicityDistance',
                                                     'WaterwaysDistance', 'CoastlineDistance', 'MillDistance',
-                                                    'PalmOilConcession ',
+                                                    'PalmOilConcession',
                                                     'gradientASTER', 'LogRoadDistance', 'Vegetype', 'CurrentMonth',
                                                     'y center',
-                                                    'x center', 'time', 'size '])
+                                                    'x center', 'time', 'size'])
 
         print(df['future_deforestation'].describe())
         print(df['future_deforestation'].value_counts())
@@ -41,7 +41,7 @@ for i in fl:
         print("Month is: ")
         print(df['CurrentMonth'].mean())
         print("Distance to defor: ")
-        print(df['current_deforestationDistance '].mean())
+        print(df['current_deforestationDistance'].mean())
 
         f.close()
         tile = 0
