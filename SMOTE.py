@@ -11,6 +11,11 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 import xgboost as xgb
 
 
+# Comment for discussion to be pushed:
+# We should use SMOTENC to denote which features are nominal/categorical,
+# otherwise the algorithm is going to interpolate between months, where month = 6.4 does not make any sense
+
+
 # Import data
 with open("C:/Users/Yme/Desktop/WWF Data/TilePickle_25.pkl", "rb") as f:
     tile = pickle.load(f)
