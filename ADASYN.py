@@ -57,16 +57,16 @@ def split_and_xgb(x_resampled, y_resampled):
 
 
 # # First pipeline: just all data unedited
-# print("No resampling")
-# split_and_xgb(x_train, y_train)
-#
-# # Second pipeline: only ADASYN oversampling to minority == 10% of data
-# print("ADASYN 0.1 oversampling")
-# over_2 = ADASYN(sampling_strategy=0.1)
-# steps_2 = [ ('o', over_2)]
-# pipeline_2 = Pipeline(steps_2)
-# x_r_2, y_r_2 = pipeline_2.fit_resample(x_train, y_train)
-# split_and_xgb(x_r_2, y_r_2)
+print("No resampling")
+split_and_xgb(x_train, y_train)
+
+# Second pipeline: only ADASYN oversampling to minority == 10% of data
+print("ADASYN 0.1 oversampling")
+over_2 = ADASYN(sampling_strategy=0.1)
+steps_2 = [ ('o', over_2)]
+pipeline_2 = Pipeline(steps_2)
+x_r_2, y_r_2 = pipeline_2.fit_resample(x_train, y_train)
+split_and_xgb(x_r_2, y_r_2)
 #
 # # Third pipeline: only SMOTE oversampling to minority == 10% of data
 # print("SMOTE 0.1 oversampling")
