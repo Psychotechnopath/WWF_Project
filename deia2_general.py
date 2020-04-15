@@ -3,8 +3,18 @@
 import pandas as pd
 import pickle
 
+
+def set_path_base(user):
+    if user == 'Tim':
+        path = 'C:/Users/s161158/Documents/Pythondingen/DEIA2_git/'
+    elif user == 'Yme':
+        path = 'C:/Users/Yme/Desktop/WWF Data/'
+
+    return path
+
+
 def to_dataframe(path):
-    # turns the pickle at 'path' into a dataframe that we can use
+    # turns the pickle at 'path' into a pandas dataframe that we can use
     with open(path, "rb") as f:  # Import data
         tile = pickle.load(f)
 
