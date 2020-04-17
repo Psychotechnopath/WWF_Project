@@ -1,13 +1,13 @@
 #%%
 from imblearn.pipeline import pipeline
-from WWF_Project.deia2_general import to_dataframe, set_path_base
+from deia2_general import to_dataframe, set_path_base
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix
 import xgboost as xgb
 
 #%%
 
-base_path = set_path_base("Joost")
+base_path = set_path_base("Yme")
 
 print(base_path)
 
@@ -29,8 +29,8 @@ from imblearn.under_sampling import ClusterCentroids
 
 #%%
 
-cc = ClusterCentroids(random_state = 47)
-X_res, y_res = cc.fit_resample(X, y)
+cc = ClusterCentroids(sampling_strategy={1: 400, 0: 9600})
+X_res, y_res = cc.fit_sample(X, y)
 
 #%%
 x_train, x_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.25, random_state=47)
