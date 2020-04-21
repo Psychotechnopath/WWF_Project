@@ -1,19 +1,14 @@
 # we can use this to define general functions that we need in many other files
-
 import pandas as pd
 import pickle
 
-
 def set_path_base(user):
+    path = ""
     if user == 'Tim':
         path = 'C:/Users/s161158/Documents/Pythondingen/DEIA2_git/'
     elif user == 'Yme':
         path = 'C:/Users/Yme/Desktop/WWF Data/'
-    elif user == 'Joost':
-        path = 'C:/Users/s155633/Documents/aaaJADS/aaaDEiA_II/DEIA_GIT/WWF_Project/'
-
     return path
-
 
 def to_dataframe(path):
     # turns the pickle at 'path' into a pandas dataframe that we can use
@@ -21,7 +16,6 @@ def to_dataframe(path):
         tile = pickle.load(f)
 
     reshaped_tile = tile.reshape(tile.shape[0], (tile.shape[1] * tile.shape[2]))  # Flatten matrix
-
     df = pd.DataFrame(reshaped_tile.T, columns=['AggIndex1', 'AggIndex2', 'AggIndex3',  # Transform to dataframe
                                                 'AggIndex4', 'AggIndex5', 'EdgeDensity1',
                                                 'EdgeDensity2', 'EdgeDensity3', 'EdgeDensity4',
@@ -35,5 +29,4 @@ def to_dataframe(path):
                                                 'PalmOilConcession',
                                                 'gradientASTER', 'LogRoadDistance', 'Vegetype', 'CurrentMonth', 'y_center',
                                                 'x_center', 'time', 'size'])
-
     return df

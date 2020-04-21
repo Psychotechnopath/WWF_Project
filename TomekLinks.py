@@ -1,28 +1,22 @@
-import pandas as pd
-import pickle
 import xgboost as xgb
-import winsound
-from imblearn import under_sampling as us
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from imblearn.metrics import geometric_mean_score
 from imblearn.pipeline import Pipeline
 import imblearn.combine
 import imblearn.over_sampling as os
+from deia2_general import set_path_base, to_dataframe
 
+#%%
+path_yme = set_path_base("Yme")
+df = to_dataframe("{}/TilePickle_25.pkl".format(path_yme))
 
-
-with open("./partial_pickle_25.pkl", "rb") as f:
-    df = pd.DataFrame(pickle.load(f))
-    # Just a small check
-    print(df.shape)
-    print(df['future_deforestation'].value_counts())
-
-
-# Memory issues are basically non-existent, so df can keep existing :)
+#Set correct predicted and predictor variables
 y = df['future_deforestation']
-X = df.drop(columns=['future_deforestation'])
+df.drop(columns=['future_deforestation'], inplace=True)
+X = df
 
+#%%
 # we take a random train test split of 25%
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47)
 
@@ -43,17 +37,6 @@ def train_xgb(x_resampled, y_resampled):
         y_test,
         y_pred)))
 
-# # # First pipeline: just all data unedited
-# print("No resampling")
-# train_xgb(x_train, y_train)
-#
-# # Second pipeline:
-# print("Tomek undersampling")
-# over_2 = us.TomekLinks(sampling_strategy='majority')
-# steps_2 = [ ('o', over_2)]
-# pipeline_2 = Pipeline(steps_2)
-# x_r_2, y_r_2 = pipeline_2.fit_resample(x_train, y_train)
-# train_xgb(x_r_2, y_r_2)
 
 # Third pipeline SMOTE + Tomek links
 print("SMOTE + Tomek")
@@ -62,12 +45,3 @@ steps_3 = [ ('o', over_3)]
 pipeline_3 = Pipeline(steps_3)
 x_r_3, y_r_3 = pipeline_3.fit_resample(x_train, y_train)
 train_xgb(x_r_3, y_r_3)
-
-# Third pipeline SMOTE + Tomek links
-print("SMOTE")
-over_4 = os.SMOTE(sampling_strategy=1)
-steps_4 = [ ('o', over_4)]
-pipeline_4 = Pipeline(steps_4)
-x_r_4, y_r_4 = pipeline_4.fit_resample(x_train, y_train)
-train_xgb(x_r_4, y_r_4)
-

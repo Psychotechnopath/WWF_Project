@@ -1,3 +1,4 @@
+#TODO @all: Is this file still necessary?
 import pandas as pd
 import pickle
 from sklearn.model_selection import train_test_split
@@ -6,7 +7,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.utils import resample
 
 # Import data
-with open("TilePickle_9.pkl", "rb") as f:
+with open("C:/Users/Yme/Desktop/WWF Data/TilePickle_9.pkl", "rb") as f:
     tile = pickle.load(f)
 
 # Flatten matrix
@@ -26,8 +27,8 @@ df = pd.DataFrame(reshaped_tile.T, columns=['AggIndex1', 'AggIndex2', 'AggIndex3
                                             'PalmOilConcession',
                                             'gradientASTER', 'LogRoadDistance', 'Vegetype', 'CurrentMonth', 'y_center',
                                             'x_center', 'time', 'size'])
+print(df['Vegetype'].describe())
 
-print(df['future_deforestation'].describe())
 
 n_bootstraps = 3  # How many times will we bootstrap a sample from the df, 3 is arbitrary
 samples = 0.95*df.shape[0]  # How many rows will be in the bootstrapped sample
