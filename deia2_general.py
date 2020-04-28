@@ -1,6 +1,9 @@
 # we can use this to define general functions that we need in many other files
 import pandas as pd
 import pickle
+import xgboost as xgb
+from sklearn.metrics import confusion_matrix, accuracy_score
+
 
 def set_path_base(user):
     path = ""
@@ -9,6 +12,7 @@ def set_path_base(user):
     elif user == 'Yme':
         path = 'C:/Users/Yme/Desktop/WWF Data/'
     return path
+
 
 def to_dataframe(path):
     # turns the pickle at 'path' into a pandas dataframe that we can use
@@ -30,3 +34,25 @@ def to_dataframe(path):
                                                 'gradientASTER', 'LogRoadDistance', 'Vegetype', 'CurrentMonth', 'y_center',
                                                 'x_center', 'time', 'size'])
     return df
+
+
+def xg_boost(x_train_param, y_train_param, x_test_param, y_test_param, model_name: str):
+    xgb_model = xgb.XGBClassifier(objective='reg:linear', random_state=47)
+    xgb_model.fit(x_train_param, y_train_param)
+
+    print("Model has been fitted")
+    xgb_model.save_model('trained_model_{}'.format(model_name))
+    y_pred = xgb_model.predict(x_test_param)
+    conf_matrix = confusion_matrix(y_test_param, y_pred)
+    accuracy = accuracy_score(y_test_param, y_pred, normalize=True)
+    print('Accuracy: {} ')
+    print(xgb_model.summary())
+
+    sensitivity = conf_matrix[0, 0] / (conf_matrix[0, 0] + conf_matrix[0, 1])
+    print('Sensitivity: {}'.format(sensitivity))
+    specificity = conf_matrix[1, 1] / (conf_matrix[1, 0] + conf_matrix[1, 1])
+    print('Specificity: {}'.format(specificity))
+    print(conf_matrix)
+    return conf_matrix, xgb_model, sensitivity, specificity, accuracy
+
+
