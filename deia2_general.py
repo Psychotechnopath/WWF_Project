@@ -1,6 +1,9 @@
 # we can use this to define general functions that we need in many other files
 import pandas as pd
 import pickle
+import gzip
+
+gzip.open()
 import xgboost as xgb
 from sklearn.metrics import confusion_matrix, accuracy_score
 
@@ -45,9 +48,7 @@ def xg_boost(x_train_param, y_train_param, x_test_param, y_test_param, model_nam
     y_pred = xgb_model.predict(x_test_param)
     conf_matrix = confusion_matrix(y_test_param, y_pred)
     accuracy = accuracy_score(y_test_param, y_pred, normalize=True)
-    print('Accuracy: {} ')
-    print(xgb_model.summary())
-
+    print('Accuracy: {} '.format(accuracy_score()))
     sensitivity = conf_matrix[0, 0] / (conf_matrix[0, 0] + conf_matrix[0, 1])
     print('Sensitivity: {}'.format(sensitivity))
     specificity = conf_matrix[1, 1] / (conf_matrix[1, 0] + conf_matrix[1, 1])
