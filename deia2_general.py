@@ -14,6 +14,10 @@ def set_path_base(user):
         path = 'C:/Users/s161158/Documents/Pythondingen/DEIA2_git/'
     elif user == 'Yme':
         path = 'C:/Users/Yme/Desktop/WWF Data/'
+    elif user == 'Joost':
+        path = 'C:/Users/s155633/Documents/aaaJADS/aaaDEiA_II/DEIA_GIT/WWF_Project'
+    elif user == 'Rodger':
+        path = 'D:/Downloads/DEiA/'
     return path
 
 

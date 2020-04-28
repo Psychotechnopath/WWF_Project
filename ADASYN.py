@@ -125,7 +125,7 @@ for j in [5, 10]: #nearest neighbors
     for i in [0.5, 0.6]:
         print("ADASYN sampling ratio {}".format(i))
         print("ADASYN knn {}".format(j))
-        adasyn = ADASYN(sampling_strategy=i, n_neighbors=j)
+        adasyn = ADASYN(sampling_strategy=i, n_neighbors=j, n_jobs=-1)
         steps = [('u', adasyn)]
         pipeline = Pipeline(steps)
         x_r, y_r = pipeline.fit_resample(x_train, y_train)
