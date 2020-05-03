@@ -4,21 +4,19 @@ from imblearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from deia2_general import set_path_base, to_dataframe, xg_boost
 
-
-#%%
 # Comment for discussion to be pushed:
 # We should use SMOTENC to denote which features are nominal/categorical,
 # otherwise the algorithm is going to interpolate between months, where month = 6.4 does not make any sense
+import pickle
 
-path_yme = set_path_base("Yme")
-df = to_dataframe("{}/TilePickle_25.pkl".format(path_yme))
+with open("subset32K.pkl", 'rb') as f:
+    df = pickle.load(f)
 
 #Set correct predicted and predictor variables
 y = df['future_deforestation']
 df.drop(columns=['future_deforestation'], inplace=True)
 X = df
 
-#%%
 #Initialize a SMOTE sampler with
 over = SMOTE(sampling_strategy=0.1)
 #under = RandomUnderSampler(sampling_strategy=0.33)
