@@ -21,7 +21,6 @@ X = df
 over = SMOTE(sampling_strategy=0.1)
 #under = RandomUnderSampler(sampling_strategy=0.33)
 
-
 steps = [ ('o', over)] #('u', under)
 pipeline = Pipeline(steps)
 

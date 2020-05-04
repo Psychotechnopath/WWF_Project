@@ -21,18 +21,17 @@ for index, pkl in enumerate(paths):
     # Abuse train_test_split somewhat to generate stratified subsamples of data
     x_outsample, x_insample, y_outsample, y_insample = train_test_split(X, y, test_size=0.0003, stratify=y, random_state=47)
     # Appending sub-samples to a complete dataframe which is a subset over all pickles.
-
     subset_x = subset_x.append(x_insample)
     subset_y = subset_y.append(y_insample.to_frame())
 
+#Reset indices so we have an increasing index again. We don't want the old indices so we drop them
 subset_x.reset_index(inplace=True, drop=True)
 subset_y.reset_index(inplace=True, drop=True)
 
 subset_x.to_pickle("subset_x.pkl")
 subset_y.to_pickle("subset_y.pkl")
 
-
-# Overview and saving on your system
+# Overview
 forest, deforestation = subset_y['future_deforestation'].value_counts()[0], subset_y['future_deforestation'].value_counts()[1]
 print(f"there are {forest} forest tiles in this pickle and {deforestation} deforested tiles in this subset")
 
