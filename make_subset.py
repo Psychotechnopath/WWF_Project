@@ -12,6 +12,7 @@ paths = [f'{path}TilePickle_{file}.pkl' for file in files_on_my_laptop]
 #this for loop constructs the actual subset (as a dataframe)
 subset_x = pd.DataFrame()
 subset_y = pd.DataFrame()
+
 for index, pkl in enumerate(paths):
     #For every pickle in the path list make a Dataframe
     df = to_dataframe(pkl)
@@ -35,4 +36,7 @@ subset_y.to_pickle("subset_y.pkl")
 forest, deforestation = subset_y['future_deforestation'].value_counts()[0], subset_y['future_deforestation'].value_counts()[1]
 print(f"there are {forest} forest tiles in this pickle and {deforestation} deforested tiles in this subset")
 
-
+#%%
+import pickle
+with open("Dict_Model_object.pkl", 'rb') as f:
+    model = pickle.load(f)
