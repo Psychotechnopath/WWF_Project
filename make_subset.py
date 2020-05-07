@@ -29,14 +29,9 @@ for index, pkl in enumerate(paths):
 subset_x.reset_index(inplace=True, drop=True)
 subset_y.reset_index(inplace=True, drop=True)
 
-subset_x.to_pickle("subset_x.pkl")
-subset_y.to_pickle("subset_y.pkl")
+subset_x.to_pickle("subset_x.pkl", protocol=3)
+subset_y.to_pickle("subset_y.pkl", protocol=3)
 
 # Overview
 forest, deforestation = subset_y['future_deforestation'].value_counts()[0], subset_y['future_deforestation'].value_counts()[1]
 print(f"there are {forest} forest tiles in this pickle and {deforestation} deforested tiles in this subset")
-
-#%%
-import pickle
-with open("Dict_Model_object.pkl", 'rb') as f:
-    model = pickle.load(f)
