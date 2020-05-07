@@ -16,6 +16,7 @@ subset_y = pd.DataFrame()
 for index, pkl in enumerate(paths):
     #For every pickle in the path list make a Dataframe
     df = to_dataframe(pkl)
+    df.dropna(inplace=True)
     y = df['future_deforestation']
     df.drop(columns=['future_deforestation'], inplace=True)
     X = df
