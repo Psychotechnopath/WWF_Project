@@ -39,14 +39,14 @@ print(y_test['future_deforestation'].value_counts())
 #     print('The geometric mean is {}'.format(geometric_mean_score(y_test, y_pred)))
 
 
-# Third pipeline Tomek links
-print("Tomek")
-over_3 = imblearn.under_sampling.TomekLinks(sampling_strategy = 'majority')
+# Third pipeline SMOTE + Tomek links
+print("SMOTETomek")
+over_3 = imblearn.combine.SMOTETomek(sampling_strategy=0.042)
 steps_3 = [ ('o', over_3)]
 pipeline_3 = Pipeline(steps_3)
 x_r_3, y_r_3 = pipeline_3.fit_resample(x_train, y_train)
 print("Resample finished")
-xg_boost(x_r_3, y_r_3, x_test, y_test, 'TomekLinks')
+xg_boost(x_r_3, y_r_3, x_test, y_test, 'SMOTETomek')
 
 stop = time.time()
 print(stop)
