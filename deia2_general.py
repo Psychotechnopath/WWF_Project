@@ -16,6 +16,8 @@ def set_path_base(user):
         path = 'C:/Users/s155633/Documents/aaaJADS/aaaDEiA_II/DEIA_GIT/WWF_Project'
     elif user == 'Rodger':
         path = 'D:/Downloads/DEiA/'
+    elif user == 'Ellen':
+        path = 'C:/Users/s153832/Desktop/JADS/Master/Jaar_1/Semester_1.2/Data_Engineer_in_Action_2/WWF/WWF_Project'
     return path
 
 
@@ -41,11 +43,9 @@ def to_dataframe(path):
     return df
 
 
-
 def xg_boost(x_train_param, y_train_param, x_test_param, y_test_param, model_name: str):
-    xgb_model = xgb.XGBClassifier(objective='binary:logistic', max_depth=10, random_state=47)
+    xgb_model = xgb.XGBClassifier(objective='binary:logistic', max_depth=10, n_jobs=-1, random_state=47)
     xgb_model.fit(x_train_param, y_train_param)
-
     print("Model has been fitted")
     xgb_model.save_model('trained_model_{}'.format(model_name))
     y_pred = xgb_model.predict(x_test_param)
