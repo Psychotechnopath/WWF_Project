@@ -23,8 +23,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 #%%
-path_yme = set_path_base("Yme")
-df = to_dataframe("{}/TilePickle_25.pkl".format(path_yme))
+path_yme = set_path_base("Joost")
+df = to_dataframe("{}/subset_x.pkl".format(path_joost))
 
 #Set correct predicted and predictor variables
 y = df['future_deforestation']
