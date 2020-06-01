@@ -9,7 +9,13 @@ from deia2_general import set_path_base, to_dataframe, xg_boost
 # We should use SMOTENC to denote which features are nominal/categorical,
 # otherwise the algorithm is going to interpolate between months, where month = 6.4 does not make any sense
 import pickle
+path_yme = set_path_base("Ellen")
+with open("{}/subset_x.pkl".format(path_yme), "rb") as x:  # Import data
+    X = pickle.load(x)
+with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
+    y = pickle.load(y)
 
+#HEBBEN WE DIT NOG NODIG???
 #LEAVE FOR YME
 # with open("Dict_Model_object.pkl" , "rb") as f:
 #     unpickled = pickle.load(f)
@@ -22,33 +28,32 @@ import pickle
 # with open ("subset_y.pkl", "rb") as f3:
 #     y = pickle.load(f3)
 
-path_yme = set_path_base("Yme")
-df = to_dataframe("{}/TilePickle_25.pkl".format(path_yme))
-df.dropna(inplace=True)
+# path_yme = set_path_base("Yme")
+# df = to_dataframe("{}/TilePickle_25.pkl".format(path_yme))
+# df.dropna(inplace=True)
 
 
-#Set correct predicted and predictor variables
-y = df['future_deforestation']
-df.drop(columns=['future_deforestation'], inplace=True)
-X = df
+# #Set correct predicted and predictor variables
+# y = df['future_deforestation']
+# df.drop(columns=['future_deforestation'], inplace=True)
+# X = df
 
 #LEAVE FOR YME
 # print(len(X))
 # X.dropna(inplace=True)
 # print(len(X))
 
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
 #Initialize a SMOTE sampler with
-over = SMOTE(sampling_strategy=0.1)
+over = SMOTE(sampling_strategy=0.111)
 #under = RandomUnderSampler(sampling_strategy=0.33)
 
 steps = [ ('o', over)] #('u', under)
 pipeline = Pipeline(steps)
 
-X, y = pipeline.fit_resample(X, y)
-
-x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47)
-
-xgb = xg_boost(x_train, y_train, x_test, y_test, "SMOTE_10%")
+x_res, y_res = pipeline.fit_resample(x_train, y_train)
+print('resample finished')
+xgb = xg_boost(x_res, y_res, x_test, y_test, "SMOTE_10%")
 
 
 #LEAVE FOR YME
