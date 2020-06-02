@@ -7,7 +7,8 @@ import pickle
 from deia2_general import set_path_base, to_dataframe, xg_boost
 
 #%%
-path_yme = set_path_base("Ellen")
+path_yme = set_path_base("Yme")
+
 with open("{}/subset_x.pkl".format(path_yme), "rb") as x:  # Import data
     X = pickle.load(x)
 with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
@@ -21,19 +22,17 @@ times_subsetsize_list = []
 def do_actions():
     for i in subset_list:
         start = time.time()
-        #TODO implement proper subset here
-        x_sub, x_other, y_sub, y_other = train_test_split(X, y, test_size=i/len("RodgerSubset"), stratify=y, random_state=47)
-        # Third pipeline SMOTE + Tomek links
         print("SMOTETomek")
-        over = imblearn.combine.SMOTETomek(sampling_strategy=0.042)
+        over = imblearn.combine.SMOTETomek(sampling_strategy=4/96)
         steps = [('o', over)]
         pipeline = Pipeline(steps)
-        x_r, y_r = pipeline.fit_resample(x_sub, y_sub)
+        #[:i] stands for how much rows we will take in our subsets
+        x_train, x_test, y_train, y_test = train_test_split(X[:i], y[:i], test_size=0.25, random_state=47)
+        x_train_res, y_train_res = pipeline.fit_resample(x_train, y_train)
         print("Resample finished")
-        x_train, x_test, y_train, y_test = train_test_split(x_r, y_r, test_size=0.25, random_state=47)
-        xg_boost(x_train, y_train, x_test, y_test, f"smote_tomek{i}")
+        xg_boost(x_train_res, y_train_res, x_test, y_test, f"smote_tomek{i}")
         stop = time.time()
-        times_subsetsize_list.append((i, stop-start))
+        times_subsetsize_list.append((i, (stop-start)/60))
         with open("times_smote_tomek.pkl", 'wb') as f:
             pickle.dump(times_subsetsize_list, f)
 

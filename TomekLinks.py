@@ -20,19 +20,19 @@ times_subsetsize_list = []
 def do_actions():
     for i in subset_list:
         start = time.time()
-        #TODO implement proper subset here
-        x_sub, x_other, y_sub, y_other = train_test_split(X, y, test_size=i/len("RodgerSubset"), stratify=y, random_state=47)
+
         # Third pipeline Tomek links
         print("Tomek")
         over = imblearn.under_sampling.TomekLinks(sampling_strategy='majority')
         steps = [('o', over)]
         pipeline = Pipeline(steps)
-        x_r, y_r = pipeline.fit_resample(x_sub, y_sub)
+        x_train, x_test, y_train, y_test = train_test_split(X[:i], y[:i], test_size=0.25, random_state=47)
+        x_train_res, y_train_res = pipeline.fit_resample(x_train, y_train)
+
         print("Resample finished")
-        x_train, x_test, y_train, y_test = train_test_split(x_r, y_r, test_size=0.25, random_state=47)
-        xg_boost(x_train, y_train, x_test, y_test, f"tomek_links{i}")
+        xg_boost(x_train_res, y_train_res, x_test, y_test, f"tomek_links{i}")
         stop = time.time()
-        times_subsetsize_list.append((i, stop-start))
+        times_subsetsize_list.append((i, (stop-start)/60))
         with open("times_sub_tomek_links.pkl", 'wb') as f:
             pickle.dump(times_subsetsize_list, f)
 
