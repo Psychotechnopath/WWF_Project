@@ -21,12 +21,14 @@ def do_actions():
     for i in subset_list:
         start = time.time()
 
+        x_sub, x_res, y_sub, y_res = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+
         # Third pipeline Tomek links
         print("Tomek")
         over = imblearn.under_sampling.TomekLinks(sampling_strategy='majority')
         steps = [('o', over)]
         pipeline = Pipeline(steps)
-        x_train, x_test, y_train, y_test = train_test_split(X[:i], y[:i], test_size=0.25, random_state=47)
+        x_train, x_test, y_train, y_test = train_test_split(x_sub, y_sub, test_size=0.25, random_state=47)
         x_train_res, y_train_res = pipeline.fit_resample(x_train, y_train)
 
         print("Resample finished")

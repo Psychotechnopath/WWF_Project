@@ -23,11 +23,13 @@ def do_actions():
     for i in subset_list:
         start = time.time()
         print("SMOTETomek")
+        x_sub, x_res, y_sub, y_res = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
         over = imblearn.combine.SMOTETomek(sampling_strategy=4/96)
         steps = [('o', over)]
         pipeline = Pipeline(steps)
         #[:i] stands for how much rows we will take in our subsets
-        x_train, x_test, y_train, y_test = train_test_split(X[:i], y[:i], test_size=0.25, random_state=47)
+        x_train, x_test, y_train, y_test = train_test_split(x_sub, y_sub, test_size=0.25, random_state=47, stratify=y_sub)
+
         x_train_res, y_train_res = pipeline.fit_resample(x_train, y_train)
         print("Resample finished")
         xg_boost(x_train_res, y_train_res, x_test, y_test, f"smote_tomek{i}")

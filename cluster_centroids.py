@@ -1,5 +1,3 @@
-#%%
-from imblearn.pipeline import pipeline
 from deia2_general import to_dataframe, set_path_base, xg_boost
 from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import ClusterCentroids
@@ -16,6 +14,7 @@ with open(f'{base_path}subset_x.pkl', 'rb') as f:
 with open(f'{base_path}subset_y.pkl', 'rb') as f2:
     y = pickle.load(f2)
 
+#%%
 
 subset_list = [1000, 5000, 10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 4000000, 5000000, 600000, 700000, 800000, 900000, 1000000, 2000000, 3000000]
 times_subsetsize_list = []
@@ -23,10 +22,11 @@ times_subsetsize_list = []
 def do_actions():
     for i in subset_list:
         start = time.time()
-        cc = ClusterCentroids(sampling_strategy={1: 400, 0: 9600})
+        x_sub, x_res, y_sub, y_res = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        cc = ClusterCentroids(sampling_strategy={1: int(0.04*i), 0: int(0.96*i)})
 
         #[:i] stands for how much rows we will take in our subsets
-        x_train, x_test, y_train, y_test = train_test_split(X[:i], y[:i], test_size=0.25, random_state=47)
+        x_train, x_test, y_train, y_test = train_test_split(x_sub, y_sub, test_size=0.25, random_state=47, stratify=y_sub)
         x_train_res, y_train_res = cc.fit_sample(x_train, y_train)
 
         xg_boost(x_train_res, y_train_res, x_test, y_test, f"cluster_centroids{i}")
