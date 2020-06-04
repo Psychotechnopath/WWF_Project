@@ -16,14 +16,14 @@ with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
 
 
 
-subset_list = [1000, 5000, 10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 4000000, 5000000, 600000, 700000, 800000, 900000, 1000000, 2000000, 3000000]
+subset_list = [10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
 times_subsetsize_list = []
 
 def do_actions():
     for i in subset_list:
         start = time.time()
         print("SMOTETomek")
-        x_sub, x_res, y_sub, y_res = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
         over = imblearn.combine.SMOTETomek(sampling_strategy=4/96)
         steps = [('o', over)]
         pipeline = Pipeline(steps)

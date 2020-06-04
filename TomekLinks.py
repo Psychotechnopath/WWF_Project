@@ -8,20 +8,21 @@ from deia2_general import set_path_base, to_dataframe, xg_boost
 from multiprocessing import Process
 
 #%%
-path_yme = set_path_base("Ellen")
+path_yme = set_path_base("Yme")
+
 with open("{}/subset_x.pkl".format(path_yme), "rb") as x:  # Import data
     X = pickle.load(x)
 with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
     y = pickle.load(y)
 
-subset_list = [1000, 5000, 10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 4000000, 5000000, 600000, 700000, 800000, 900000, 1000000, 2000000, 3000000]
+subset_list = [10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
 times_subsetsize_list = []
 
 def do_actions():
     for i in subset_list:
         start = time.time()
 
-        x_sub, x_res, y_sub, y_res = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
 
         # Third pipeline Tomek links
         print("Tomek")
@@ -37,7 +38,7 @@ def do_actions():
         times_subsetsize_list.append((i, (stop-start)/60))
         with open("times_sub_tomek_links.pkl", 'wb') as f:
             pickle.dump(times_subsetsize_list, f)
-
+# penis
 
 if __name__ == '__main__':
     # We create a Process
