@@ -7,7 +7,7 @@ import pickle
 from deia2_general import set_path_base, to_dataframe, xg_boost
 
 #%%
-path_yme = set_path_base("Yme")
+path_yme = set_path_base("Ellen")
 
 with open("{}/subset_x.pkl".format(path_yme), "rb") as x:  # Import data
     X = pickle.load(x)
@@ -16,7 +16,7 @@ with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
 
 
 
-subset_list = [10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
+subset_list = [30000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
 times_subsetsize_list = []
 
 def do_actions():
@@ -24,7 +24,7 @@ def do_actions():
         start = time.time()
         print("SMOTETomek")
         x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
-        over = imblearn.combine.SMOTETomek(sampling_strategy=4/96)
+        over = imblearn.combine.SMOTETomek(sampling_strategy=0.042)
         steps = [('o', over)]
         pipeline = Pipeline(steps)
         #[:i] stands for how much rows we will take in our subsets

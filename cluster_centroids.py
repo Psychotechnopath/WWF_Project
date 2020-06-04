@@ -6,7 +6,7 @@ import time
 import pickle
 
 
-base_path = set_path_base("Yme")
+base_path = set_path_base("Ellen")
 
 with open(f'{base_path}subset_x.pkl', 'rb') as f:
     X = pickle.load(f)
@@ -23,7 +23,7 @@ def do_actions():
     for i in subset_list:
         start = time.time()
         x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
-        cc = ClusterCentroids(sampling_strategy={1: int(0.04*i), 0: int(0.96*i)})
+        cc = ClusterCentroids(sampling_strategy=0.042)
         print(y_sub.describe())
 
         #[:i] stands for how much rows we will take in our subsets

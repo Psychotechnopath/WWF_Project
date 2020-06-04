@@ -17,7 +17,7 @@ def set_path_base(user):
     elif user == 'Rodger':
         path = 'D:/Downloads/DEiA/'
     elif user == 'Ellen':
-        path = 'C:/Users/s153832/Desktop/JADS/Master/Jaar_1/Semester_1.2/Data_Engineer_in_Action_2/WWF/WWF_Project'
+        path = 'C:/Users/s153832/Desktop/JADS/Master/Jaar_1/Semester_1.2/Data_Engineer_in_Action_2/WWF/WWF_Project/'
     return path
 
 
