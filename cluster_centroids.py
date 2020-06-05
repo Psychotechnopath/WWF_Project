@@ -1,5 +1,3 @@
-#%%
-from imblearn.pipeline import pipeline
 from deia2_general import to_dataframe, set_path_base, xg_boost
 from sklearn.model_selection import train_test_split
 from imblearn.under_sampling import ClusterCentroids
@@ -7,33 +5,38 @@ from multiprocessing import Process
 import time
 import pickle
 
-#TODO Implement proper subset
-base_path = set_path_base("Yme")
-df = to_dataframe("{}TilePickle_25.pkl".format(base_path))
 
-#Make a copy of the original df, drop future_df column and create X and y variable
-X = df.copy(deep=True)
-X.drop(columns=['future_deforestation'], inplace=True)
-y = df['future_deforestation']
+base_path = set_path_base("Ellen")
 
+with open(f'{base_path}subset_x.pkl', 'rb') as f:
+    X = pickle.load(f)
 
-subset_list = [1000, 5000, 10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 4000000, 5000000, 600000, 700000, 800000, 900000, 1000000, 2000000, 3000000]
+with open(f'{base_path}subset_y.pkl', 'rb') as f2:
+    y = pickle.load(f2)
+
+#%%
+
+subset_list = [10000, 15000, 20000, 25000, 50000, 75000, 100000, 200000, 300000, 4000000, 5000000, 600000, 700000, 800000, 900000, 1000000, 2000000, 3000000]
 times_subsetsize_list = []
 
 def do_actions():
     for i in subset_list:
         start = time.time()
-        #TODO implement proper subset here
-        x_sub, x_other, y_sub, y_other = train_test_split(X, y, test_size=i/len("RodgerSubset"), stratify=y, random_state=47)
-        cc = ClusterCentroids(sampling_strategy={1: 400, 0: 9600})
-        x_res, y_res = cc.fit_sample(x_sub, y_sub)
-        x_train, x_test, y_train, y_test = train_test_split(x_res, y_res, test_size=0.25, random_state=47)
-        xg_boost(x_train, y_train, x_test, y_test, f"cluster_centroids{i}")
-        stop = time.time()
-        times_subsetsize_list.append((i, stop-start))
-        with open("times_sub_cluster.pkl", 'wb') as f:
-            pickle.dump(times_subsetsize_list, f)
+        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        cc = ClusterCentroids(sampling_strategy=0.042)
+        print(y_sub.describe())
 
+        #[:i] stands for how much rows we will take in our subsets
+        x_train, x_test, y_train, y_test = train_test_split(x_sub, y_sub, test_size=0.25, random_state=47, stratify=y_sub)
+
+        x_train_res, y_train_res = cc.fit_sample(x_train, y_train)
+
+        xg_boost(x_train_res, y_train_res, x_test, y_test, f"cluster_centroids{i}")
+        stop = time.time()
+        times_subsetsize_list.append((i, (stop-start)/60))
+
+        with open("times_sub_cluster.pkl", 'wb') as f3:
+            pickle.dump(times_subsetsize_list, f3)
 
 
 if __name__ == '__main__':
