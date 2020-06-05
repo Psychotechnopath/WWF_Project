@@ -46,7 +46,7 @@ if __name__ == '__main__':
     action_process = Process(target=do_actions)
     # We start the process and we block for 10 hours
     action_process.start()
-    action_process.join(timeout=36000)
+    action_process.join(timeout=60)
     # We terminate the process.
     action_process.terminate()
     print("Hey there! I timed out! You can do things after me!")

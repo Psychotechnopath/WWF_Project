@@ -7,7 +7,6 @@ path = set_path_base("Rodger")
 
 
 path = set_path_base("Rodger")
-# Deze aanpassen naar welke files je op je laptoppie heb staan
 files_on_my_laptop = list(range(0, 31))
 paths = [f'{path}TilePickle_{file}.pkl' for file in files_on_my_laptop]
 

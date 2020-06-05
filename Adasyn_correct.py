@@ -1,4 +1,4 @@
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import ADASYN
 from imblearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from WWF_Project.deia2_general import set_path_base, to_dataframe, xg_boost
@@ -16,14 +16,14 @@ with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
 
 
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
-#Initialize a SMOTE sampler with
-over = SMOTE(sampling_strategy=0.111)
+#Initialize a Adasyn sampler with
+over = ADASYN(sampling_strategy=0.111)
 steps = [ ('o', over)]
 pipeline = Pipeline(steps)
 x_res, y_res = pipeline.fit_resample(x_train, y_train)
 print('resample finished')
 
-xgb = xg_boost(x_res, y_res, x_test, y_test, "SMOTE_10%")
+xgb = xg_boost(x_res, y_res, x_test, y_test, "ADASYN_10%")
 
 
 

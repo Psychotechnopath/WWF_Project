@@ -19,22 +19,22 @@ if sampler_choice == 1:
     under = imb.under_sampling.RandomUnderSampler(sampling_strategy=0.04166666666)  # 4% minority after resampling
     steps = [('u', under)]
     pipeline = imb.pipeline.Pipeline(steps)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
     X, y = pipeline.fit_resample(X, y)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     d2g.xg_boost(x_train, y_train, x_test, y_test, 'Random Undersampling')
 elif sampler_choice == 2:
     over = imb.over_sampling.RandomOverSampler(sampling_strategy=0.04166666666)  # 4% minority after resampling
     steps = [('o', over)]
     pipeline = imb.pipeline.Pipeline(steps)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
     X, y = pipeline.fit_resample(X, y)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     d2g.xg_boost(x_train, y_train, x_test, y_test, 'Random Oversampling')
 elif sampler_choice == 3:
     over = imb.over_sampling.RandomOverSampler(sampling_strategy=0.10)  # NOT UP-TO-DATE
     under = imb.under_sampling.RandomUnderSampler(sampling_strategy=0.04166666666)  # NOT UP-TO-DATE
     steps = [('o', over), ('u', under)]
     pipeline = imb.pipeline.Pipeline(steps)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
     X, y = pipeline.fit_resample(X, y)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
     d2g.xg_boost(x_train, y_train, x_test, y_test, 'Random Over+Undersampling')
 
