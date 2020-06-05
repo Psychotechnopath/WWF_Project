@@ -11,30 +11,30 @@ with open(path, "rb") as f:
     y = pickle.load(f)
 X = df.copy(deep=True)
 y = y['future_deforestation']
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, stratify=y)
 
 
-sampler_choice = 2  # 1 = Under, 2 = Over, 3 = Both
+sampler_choice = 1  # 1 = Under, 2 = Over, 3 = Both
 
 if sampler_choice == 1:
-    under = imb.under_sampling.RandomUnderSampler(sampling_strategy=0.04166666666)  # 4% minority after resampling
+    under = imb.under_sampling.RandomUnderSampler(sampling_strategy=1)
     steps = [('u', under)]
     pipeline = imb.pipeline.Pipeline(steps)
-    X, y = pipeline.fit_resample(X, y)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    X, y = pipeline.fit_resample(x_train, y_train)
     d2g.xg_boost(x_train, y_train, x_test, y_test, 'Random Undersampling')
-elif sampler_choice == 2:
+
+
+if sampler_choice == 2:
     over = imb.over_sampling.RandomOverSampler(sampling_strategy=0.04166666666)  # 4% minority after resampling
     steps = [('o', over)]
     pipeline = imb.pipeline.Pipeline(steps)
-    X, y = pipeline.fit_resample(X, y)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    X, y = pipeline.fit_resample(x_train, y_train)
     d2g.xg_boost(x_train, y_train, x_test, y_test, 'Random Oversampling')
+
 elif sampler_choice == 3:
     over = imb.over_sampling.RandomOverSampler(sampling_strategy=0.10)  # NOT UP-TO-DATE
     under = imb.under_sampling.RandomUnderSampler(sampling_strategy=0.04166666666)  # NOT UP-TO-DATE
     steps = [('o', over), ('u', under)]
     pipeline = imb.pipeline.Pipeline(steps)
-    X, y = pipeline.fit_resample(X, y)
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+    X, y = pipeline.fit_resample(x_train, y_train)
     d2g.xg_boost(x_train, y_train, x_test, y_test, 'Random Over+Undersampling')
-
