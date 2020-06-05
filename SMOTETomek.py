@@ -15,7 +15,6 @@ with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
     y = pickle.load(y)
 
 
-
 subset_list = [30000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
 times_subsetsize_list = []
 
