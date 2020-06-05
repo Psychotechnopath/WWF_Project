@@ -6,7 +6,7 @@ import time
 import pickle
 
 
-base_path = set_path_base("Ellen")
+base_path = set_path_base("Yme")
 
 with open(f'{base_path}subset_x.pkl', 'rb') as f:
     X = pickle.load(f)

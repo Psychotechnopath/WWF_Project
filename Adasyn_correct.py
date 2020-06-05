@@ -3,6 +3,7 @@ from imblearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from WWF_Project.deia2_general import set_path_base, to_dataframe, xg_boost
 
+#TODO: Check if this file is correct, and if so remove ADASYN.py
 #%%
 # Comment for discussion to be pushed:
 # We should use SMOTENC to denote which features are nominal/categorical,

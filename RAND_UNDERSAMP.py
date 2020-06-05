@@ -14,7 +14,7 @@ y = y['future_deforestation']
 
 
 sampler_choice = 2  # 1 = Under, 2 = Over, 3 = Both
-
+#TODO: Run again, modify so that you do not resample entire data but only training data
 if sampler_choice == 1:
     under = imb.under_sampling.RandomUnderSampler(sampling_strategy=0.04166666666)  # 4% minority after resampling
     steps = [('u', under)]
