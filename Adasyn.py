@@ -14,7 +14,6 @@ with open("{}/subset_y.pkl".format(path), "rb") as y:  # Import data
 
 
 #%%
-#Test
 #These ratio values correspond to the percentages of oversampling that were tested: 4%, 10%, 25%, 35% and 50%.
 ratio_list = [0.042, 0.111, 0.333, 0.538, 1]
 percentage_list = [4, 10, 25, 35, 50]
