@@ -7,12 +7,13 @@ import pickle
 from deia2_general import set_path_base, to_dataframe, xg_boost
 
 #%%
-path_yme = set_path_base("Ellen")
+path_yme = set_path_base("Yme")
 
 with open("{}/subset_x.pkl".format(path_yme), "rb") as x:  # Import data
     X = pickle.load(x)
 with open("{}/subset_y.pkl".format(path_yme), "rb") as y:  # Import data
     y = pickle.load(y)
+
 
 
 subset_list = [30000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
@@ -34,7 +35,7 @@ def do_actions():
         xg_boost(x_train_res, y_train_res, x_test, y_test, f"smote_tomek{i}")
         stop = time.time()
         times_subsetsize_list.append((i, (stop-start)/60))
-        with open("times_smote_tomek.pkl", 'wb') as f:
+        with open("running_time_pickles/times_smote_tomek.pkl", 'wb') as f:
             pickle.dump(times_subsetsize_list, f)
 
 
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     action_process = Process(target=do_actions)
     # We start the process and we block for 10 hours
     action_process.start()
-    action_process.join(timeout=60)
+    action_process.join(timeout=36000)
     # We terminate the process.
     action_process.terminate()
     print("Hey there! I timed out! You can do things after me!")
