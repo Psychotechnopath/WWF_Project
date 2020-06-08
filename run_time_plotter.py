@@ -11,10 +11,12 @@ with open("running_time_pickles/times_smote_tomek.pkl", 'rb') as f3:
     times_sub_smote_tomek = pickle.load(f3)
 
 
+
 plt.figure()
 #plt.plot(*zip(*times_sub_cluster), '-o', label='Running time of Cluster_centroids')
 #plt.plot(*zip(*times_sub_tomek_links), '-o', label='Running time of TomekLinks')
 plt.plot(*zip(*times_sub_smote_tomek), '-o', label='Running time of SMOTE Tomek')
+plt.plot(*zip(*times_random_sampling), '-o', label='Running time of SMOTE Tomek')
 plt.title('Running times of different cluster based sampling methods')
 plt.ylabel("Running time")
 plt.xlabel("Size of the subset")
