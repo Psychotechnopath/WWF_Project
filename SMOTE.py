@@ -36,13 +36,13 @@ times_subsetsize_list = []
 def do_actions():
     for i in subset_list:
         start = time.time()
-        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        x_rest, x_sub, y_rest, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
 
         print("SMOTE")
         over = SMOTE(sampling_strategy=ratio)
         steps = [('o', over)]
         pipeline = Pipeline(steps)
-        x_train_res, y_train_res = pipeline.fit_resample(x_sub, y_sub)
+        x_res, y_res = pipeline.fit_resample(x_sub, y_sub)
         print("Resample finished")
         stop = time.time()
         times_subsetsize_list.append((i, (stop-start)/60))

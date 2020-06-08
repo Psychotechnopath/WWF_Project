@@ -45,7 +45,7 @@ times_subsetsize_dict = {'time_under': [],
 
 def do_actions():
     for i in subset_list:
-        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        x_rest, x_sub, y_rest, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
 
         #Random Undersampling
         start_under = time.time()
@@ -82,7 +82,7 @@ def do_actions():
         print("Resample finished")
         stop_over_under = time.time()
         time_over_under_sub = (stop_over_under-start_over_under)/60
-        times_subsetsize_dict['time_over'].append(time_over_under_sub)
+        times_subsetsize_dict['time_over_under'].append(time_over_under_sub)
 
 
         with open("running_time_pickles/times_random.pkl", 'wb') as f:

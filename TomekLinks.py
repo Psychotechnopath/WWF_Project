@@ -31,7 +31,7 @@ times_subsetsize_list = []
 def do_actions():
     for i in subset_list:
         start = time.time()
-        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        x_rest, x_sub, y_rest, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
         # Third pipeline Tomek links
         print("Tomek")
         over = imblearn.under_sampling.TomekLinks(sampling_strategy='majority')
@@ -41,7 +41,7 @@ def do_actions():
         print("Resample finished")
         stop = time.time()
         times_subsetsize_list.append((i, (stop-start)/60))
-        with open("running_time_pickles/times_sub_tomek_links.pkl", 'wb') as f:
+        with open("running_time_pickles/times_tomek_links.pkl", 'wb') as f:
             pickle.dump(times_subsetsize_list, f)
 
 

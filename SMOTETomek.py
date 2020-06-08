@@ -35,11 +35,11 @@ def do_actions():
     for i in subset_list:
         start = time.time()
         print("SMOTETomek")
-        x_res, x_sub, y_res, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+        x_rest, x_sub, y_rest, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
         over = imblearn.combine.SMOTETomek(sampling_strategy=0.042)
         steps = [('o', over)]
         pipeline = Pipeline(steps)
-        x_train_res, y_train_res = pipeline.fit_resample(x_sub, y_sub)
+        x_res, y_res = pipeline.fit_resample(x_sub, y_sub)
         print("Resample finished")
         stop = time.time()
 
