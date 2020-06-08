@@ -47,7 +47,7 @@ def xg_boost(x_train_param, y_train_param, x_test_param, y_test_param, model_nam
     xgb_model = xgb.XGBClassifier(objective='binary:logistic', max_depth=10, n_jobs=-1, random_state=47)
     xgb_model.fit(x_train_param, y_train_param)
     print("Model has been fitted")
-    xgb_model.save_model('pickled_models/trained_model_{}'.format(model_name))
+    xgb_model.save_model('trained_model_{}'.format(model_name))
     y_pred = xgb_model.predict(x_test_param)
     conf_matrix = confusion_matrix(y_test_param, y_pred)
     accuracy = accuracy_score(y_test_param, y_pred, normalize=True)
