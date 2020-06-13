@@ -1,7 +1,6 @@
 # we can use this to define general functions that we need in many other files
 import pandas as pd
 import pickle
-
 import xgboost as xgb
 from sklearn.metrics import confusion_matrix, accuracy_score
 

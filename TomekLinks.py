@@ -1,59 +1,72 @@
 from sklearn.model_selection import train_test_split
 from imblearn.pipeline import Pipeline
-import imblearn.combine
 import imblearn.under_sampling
 import time
 import pickle
-from deia2_general import set_path_base, to_dataframe, xg_boost
+from general_functions import set_path_base, to_dataframe, xg_boost
 from multiprocessing import Process
 
+#This code was used to load in the subset of data that we created (in make_subset.py)
+#Replace with own mechanism to load in data
 path = set_path_base("Yme")
-
 with open("{}/subset_x.pkl".format(path), "rb") as x:  # Import data
     X = pickle.load(x)
 with open("{}/subset_y.pkl".format(path), "rb") as y:  # Import data
     y = pickle.load(y)
 
 
-#To run the full model:
+#Code that runs the full model. Other than the other sampling strategies,
+#TomekLinks does not work with over/undersampling to some ratio of minority class,
+#Instead it determines this ratio automatically.
+
+# Create a train-test split where the ratio of target class is maintained
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
+
+# Initialize a TomekLinks sampler
 under = imblearn.under_sampling.TomekLinks(sampling_strategy='majority')
+# Initialize a pipeline (One can add extra steps here if required)
 steps = [('o', under)]
 pipeline = Pipeline(steps)
-x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=47, stratify=y)
+# Resample data
 x_train_res, y_train_res = pipeline.fit_resample(x_train, y_train)
+# Train an xg_boost model with resampled data
 xg_boost(x_train_res, y_train_res, x_test, y_test, f"tomek_links{len(X)}")
 
 
-#To generate the running-time plots:
-subset_list = [30000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
-times_subsetsize_list = []
+# The code below was used to calculate the running times.
+# Since some running times were very long, we let the code time-out after 10 hours.
+# It is less relevant for WWF, hence it is commented out.
 
-def do_actions():
-    for i in subset_list:
-        start = time.time()
-        x_rest, x_sub, y_rest, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
-        # Third pipeline Tomek links
-        print("Tomek")
-        over = imblearn.under_sampling.TomekLinks(sampling_strategy='majority')
-        steps = [('o', over)]
-        pipeline = Pipeline(steps)
-        x_train_res, y_train_res = pipeline.fit_resample(x_sub, y_sub)
-        print("Resample finished")
-        stop = time.time()
-        times_subsetsize_list.append((i, (stop-start)/60))
-        with open("running_time_pickles/times_tomek_links.pkl", 'wb') as f:
-            pickle.dump(times_subsetsize_list, f)
-
-
-if __name__ == '__main__':
-    # We create a Process
-    action_process = Process(target=do_actions)
-    # We start the process and we block for 10 hours
-    action_process.start()
-    action_process.join(timeout=36000)
-    # We terminate the process.
-    action_process.terminate()
-    print("Hey there! I timed out! You can do things after me!")
+#List of sub-sample sizes that were evaluated to calculate running times.
+# subset_list = [30000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1500000, 2000000]
+# times_subsetsize_list = []
+#
+# def calculate_running_times():
+#     for i in subset_list:
+#         start = time.time()
+#         x_rest, x_sub, y_rest, y_sub = train_test_split(X, y, test_size=i/len(X), stratify=y, random_state=47)
+#         # Third pipeline Tomek links
+#         print("Tomek", i)
+#         over = imblearn.under_sampling.TomekLinks(sampling_strategy='majority')
+#         steps = [('o', over)]
+#         pipeline = Pipeline(steps)
+#         x_train_res, y_train_res = pipeline.fit_resample(x_sub, y_sub)
+#         print("Resample finished")
+#         stop = time.time()
+#         times_subsetsize_list.append((i, (stop-start)/60))
+#         with open("running_time_pickles/times_tomek_links.pkl", 'wb') as f:
+#             pickle.dump(times_subsetsize_list, f)
+#
+#
+# if __name__ == '__main__':
+#     # We create a Process
+#     action_process = Process(target=calculate_running_times)
+#     # We start the process and we block for 10 hours
+#     action_process.start()
+#     action_process.join(timeout=36000)
+#     # We terminate the process.
+#     action_process.terminate()
+#     print("Hey there! I timed out! You can do things after me!")
 
 
 

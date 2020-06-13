@@ -1,11 +1,7 @@
-from deia2_general import set_path_base, to_dataframe
+from general_functions import set_path_base, to_dataframe
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-path = set_path_base("Rodger")
-#df = to_dataframe(f"{path}/TilePickle_25.pkl")
-
-#TODO Clean up this file
 path = set_path_base("Rodger")
 files_on_my_laptop = list(range(0, 31))
 paths = [f'{path}TilePickle_{file}.pkl' for file in files_on_my_laptop]
