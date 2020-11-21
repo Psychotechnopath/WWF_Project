@@ -17,7 +17,7 @@ x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random
 #Sampler_choice variable is used to determine which random sampling strategy is used.
 #1 = random undersampling, 2 = random oversampling, 3 = random under and oversampling combined.
 sampler_choice = 2
-
+#test
 #Sampling_strategy variable is used to set the sampling ratio.
 sampling_strategy = 1
 if sampler_choice == 1:
